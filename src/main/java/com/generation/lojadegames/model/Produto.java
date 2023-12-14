@@ -26,7 +26,7 @@ public class Produto {
 	
 	private String plataforma;
 	
-	private float preco;
+	private double preco;
 	
 	@Column(length=1000)
 	@Size(max=1000, message = "O atríbuto foto pode ter no máximo 1000 caracteres.")

@@ -71,4 +71,13 @@ public class ProdutoController {
 		produtoRepository.deleteById(id);
 	}
 	
+	@GetMapping("/menorque")
+	public List<Produto> listarProdutosMenoresQue(double preco) {
+		return produtoRepository.findByPrecoLessThan(preco);
+	}
+	
+	@GetMapping("/maiorque")
+	public List<Produto> listarProdutosMaioresQue(double preco) {
+		return produtoRepository.findByPrecoGreaterThan(preco);
+	}
 }
