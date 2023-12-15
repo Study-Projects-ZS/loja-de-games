@@ -45,14 +45,14 @@ public class ProdutoController {
 				.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 	}
 	
-	@GetMapping("/produto/{produto}")
+	@GetMapping("/nome/{nome}")
 	public ResponseEntity<List<Produto>> getByNome(@PathVariable String nome) {
 		return ResponseEntity.ok(produtoRepository.findAllByNomeContainingIgnoreCase(nome));
 	}
 	
 	@PostMapping
 	public ResponseEntity<Produto> post(@Valid @RequestBody Produto produto) {
-		if(categoriaRepository.existsById(produto.getId()))
+		if(categoriaRepository.existsById(produto.getCategoria().getId()))
 			return ResponseEntity.status(HttpStatus.CREATED)
 					.body(produtoRepository.save(produto));
 		throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Categoria não existe!", null);
@@ -81,13 +81,13 @@ public class ProdutoController {
 		produtoRepository.deleteById(id);
 	}
 	
-	@GetMapping("/menorque")
-	public List<Produto> listarProdutosMenoresQue(double preco) {
+	@GetMapping("/menorque/{preco}")
+	public List<Produto> listarProdutosMenoresQue(@PathVariable double preco) {
 		return produtoRepository.findByPrecoLessThan(preco);
 	}
 	
-	@GetMapping("/maiorque")
-	public List<Produto> listarProdutosMaioresQue(double preco) {
+	@GetMapping("/maiorque/{preco}")
+	public List<Produto> listarProdutosMaioresQue(@PathVariable double preco) {
 		return produtoRepository.findByPrecoGreaterThan(preco);
 	}
 }

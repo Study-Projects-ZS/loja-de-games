@@ -1,5 +1,7 @@
 package com.generation.lojadegames.model;
 
+import java.math.BigDecimal;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
@@ -9,11 +11,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name = "td_produtos")
+@Table(name = "tb_produtos")
 public class Produto {
 
 	@Id
@@ -25,7 +29,9 @@ public class Produto {
 	
 	private String plataforma;
 
-	private double preco;
+	@DecimalMin(value = "0.0", inclusive = false, message = "O preço deve ser maior que zero")
+	@Digits(integer = 5, fraction = 2)
+	private BigDecimal preco;
 	
 	@Column(length=1000)
 	@Size(max=1000, message = "O atríbuto foto pode ter no máximo 1000 caracteres.")
@@ -59,11 +65,11 @@ public class Produto {
 		this.plataforma = plataforma;
 	}
 
-	public double getPreco() {
+	public BigDecimal getPreco() {
 		return preco;
 	}
 
-	public void setPreco(double preco) {
+	public void setPreco(BigDecimal preco) {
 		this.preco = preco;
 	}
 
