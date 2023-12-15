@@ -24,7 +24,7 @@ public class Produto {
 	private String nome;
 	
 	private String plataforma;
-	
+
 	private double preco;
 	
 	@Column(length=1000)
@@ -73,5 +73,13 @@ public class Produto {
 
 	public void setFoto(String foto) {
 		this.foto = foto;
+	}
+	
+	public Categoria getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
 	}
 }
