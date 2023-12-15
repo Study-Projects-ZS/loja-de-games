@@ -11,8 +11,6 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
 @Entity
 @Table(name = "tb_categorias")
 public class Categoria {
@@ -25,6 +23,22 @@ public class Categoria {
 	@Size(min = 1, max = 100, message = "A categoria não pode ficar em branco")
 	@NotBlank
 	private String descricao;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
 	
 	
 }
