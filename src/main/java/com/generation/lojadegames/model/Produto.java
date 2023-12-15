@@ -1,10 +1,13 @@
 package com.generation.lojadegames.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -21,12 +24,16 @@ public class Produto {
 	private String nome;
 	
 	private String plataforma;
-	
+
 	private double preco;
 	
 	@Column(length=1000)
 	@Size(max=1000, message = "O atríbuto foto pode ter no máximo 1000 caracteres.")
 	private String foto;
+	
+	@ManyToOne
+	@JsonIgnoreProperties("produto")
+	private Categoria categoria;
 	
 	public Long getId() {
 		return id;
@@ -66,5 +73,13 @@ public class Produto {
 
 	public void setFoto(String foto) {
 		this.foto = foto;
+	}
+	
+	public Categoria getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
 	}
 }
