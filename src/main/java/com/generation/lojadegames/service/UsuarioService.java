@@ -5,12 +5,16 @@ import java.util.Optional;
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.generation.lojadegames.model.Usuario;
 import com.generation.lojadegames.model.UsuarioLogin;
 import com.generation.lojadegames.repository.UsuarioRepository;
+import com.generation.lojadegames.security.JwtService;
 
 @Service
 public class UsuarioService {
@@ -73,7 +77,6 @@ public class UsuarioService {
                 // Preenche o Objeto usuarioLogin com os dados encontrados 
 			   usuarioLogin.get().setId(usuario.get().getId());
                 usuarioLogin.get().setNome(usuario.get().getNome());
-                usuarioLogin.get().setFoto(usuario.get().getFoto());
                 usuarioLogin.get().setToken(gerarToken(usuarioLogin.get().getUsuario()));
                 usuarioLogin.get().setSenha("");
 				
