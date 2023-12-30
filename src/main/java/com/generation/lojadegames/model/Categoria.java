@@ -28,7 +28,7 @@ public class Categoria {
 	
 	@NotBlank
 	@Column(length = 50)
-	@Size(min = 1, max = 100, message = "A categoria não pode ficar em branco")
+	@Size(min = 1, message = "A categoria não pode ficar em branco")
 	private String descricao;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "categoria", cascade = CascadeType.REMOVE)

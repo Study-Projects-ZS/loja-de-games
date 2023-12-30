@@ -1,7 +1,6 @@
 package com.generation.lojadegames.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,11 +35,11 @@ public class CategoriaController {
 		return ResponseEntity.ok(categoriaRepository.findAll());
 	}
 	
-	@GetMapping("/{id}")
+	@GetMapping("/id/{id}")
 	public ResponseEntity<Categoria> getById(@PathVariable Long id){
 		return categoriaRepository.findById(id)
-				.map(resposta -> ResponseEntity.ok(resposta))
-				.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+				.map(ResponseEntity::ok)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 	}
 	
 	@GetMapping("/descricao/{descricao}")
@@ -48,25 +47,31 @@ public class CategoriaController {
 		return ResponseEntity.ok(categoriaRepository.findAllByDescricaoContainingIgnoreCase(descricao));
 	}
 	
-	@PostMapping
+	@PostMapping("/create")
 	public ResponseEntity<Categoria> post(@Valid @RequestBody Categoria categoria){
+		if(categoriaRepository.existsByDescricaoIgnoreCase(categoria.getDescricao()))
+			throw new ResponseStatusException(HttpStatus.CONFLICT, "Categoria já existe!");
+		
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(categoriaRepository.save(categoria));
+		
 	}
 	
-	@PutMapping
+	@PutMapping("/update")
 	public ResponseEntity<Categoria> put(@Valid @RequestBody Categoria categoria){
+		if(categoriaRepository.existsByDescricaoIgnoreCase(categoria.getDescricao()) && 
+				categoriaRepository.findById(categoria.getId()).isEmpty())
+			throw new ResponseStatusException(HttpStatus.CONFLICT, "Categoria já existe!");
+		
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(categoriaRepository.save(categoria));
 	}
 	
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/delete/{id}")
 	public void delete(@PathVariable Long id) {
-		Optional<Categoria> categoria = categoriaRepository.findById(id);
-		
-		if(categoria.isEmpty())
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+		categoriaRepository.findById(id)
+			.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Categoria com o ID: " + id + " não encontrada"));
 		
 		categoriaRepository.deleteById(id);
 	}
