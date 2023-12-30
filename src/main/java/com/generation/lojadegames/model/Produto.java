@@ -31,12 +31,12 @@ public class Produto {
 	
 	private String plataforma;
 
-	@DecimalMin(value = "0.0", inclusive = false, message = "O preço deve ser maior que zero")
+	@DecimalMin(value = "0.0", inclusive = true, message = "O preço deve ser maior que zero")
 	@Digits(integer = 5, fraction = 2)
 	private BigDecimal preco;
 	
-	@Column(length=1000)
-	@Size(max=1000, message = "O atríbuto foto pode ter no máximo 1000 caracteres.")
+	@Column(length=5000)
+	@Size(message = "O atríbuto foto pode ter no máximo 5000 caracteres.")
 	private String foto;
 	
 	@ManyToOne
